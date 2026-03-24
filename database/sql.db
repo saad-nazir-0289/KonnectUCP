@@ -1,0 +1,84 @@
+CREATE DATABASE dbproject;
+USE dbproject;
+
+-- Users Table
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tasks Table
+CREATE TABLE tasks (
+    task_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    status ENUM('open', 'in_progress', 'completed') DEFAULT 'open',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+-- Messages Table
+CREATE TABLE messages (
+    message_id INT AUTO_INCREMENT PRIMARY KEY,
+    sender_id INT,
+    receiver_id INT,
+    content TEXT NOT NULL,
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sender_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+-- Posts Table
+CREATE TABLE posts (
+    post_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+
+-- Insert Test Users
+INSERT INTO users (username, email, password_hash) VALUES
+('john_doe', 'john@example.com', '$2y$10$abcdefghijklmnopqrstuv'),
+('jane_smith', 'jane@example.com', '$2y$10$abcdefghijklmnopqrstuv'),
+('mike_jordan', 'mike@example.com', '$2y$10$abcdefghijklmnopqrstuv');
+
+-- Insert Test Tasks
+INSERT INTO tasks (user_id, title, description) VALUES
+(1, 'Complete Web Project', 'Finish frontend and backend integration.'),
+(2, 'Fix Login Issues', 'Debug login functionality.'),
+(3, 'Update Database Schema', 'Add a new column to the users table.');
+
+-- Insert Test Messages
+INSERT INTO messages (sender_id, receiver_id, content) VALUES
+(1, 2, 'Hey Jane, how is the project going?'),
+(2, 1, 'Hey John, I just fixed a bug in login!'),
+(3, 1, 'Hey John, can you review my latest task update?');
+
+-- Insert Test Posts
+INSERT INTO posts (user_id, title, content) VALUES
+(1, 'My First Post', 'Hello everyone! This is my first post.'),
+(2, 'Bootstrap Tips', 'Bootstrap is an amazing front-end framework.'),
+(3, 'jQuery vs Vanilla JS', 'Which one do you prefer? Let’s discuss.');
+
+
+TRUNCATE TABLE users;
+
+INSERT INTO users (username, email, password_hash) VALUES
+('john_doe1', 'john1@example.com', '$2y$10$Bp/0P5iJ.EwzM9pWOpZfne6D/ZF2j/MwD3NwMoeU8MgJc7x/Q2mWe'), -- password123
+('jane_smith1', 'jane1@example.com', '$2y$10$Bp/0P5iJ.EwzM9pWOpZfne6D/ZF2j/MwD3NwMoeU8MgJc7x/Q2mWe'), -- password123
+('mike_jordan1', 'mike1@example.com', '$2y$10$Bp/0P5iJ.EwzM9pWOpZfne6D/ZF2j/MwD3NwMoeU8MgJc7x/Q2mWe'); -- password123
+
+
+select username, password_hash from users;
+
+INSERT INTO users (username, email, password_hash) VALUES
+('john_doe2', 'john2@example.com', '12345'), -- password123
+('jane_smith2', 'jane2@example.com', '12345'), -- password123
+('mike_jordan2', 'mike2@example.com', '12345'); -- password123

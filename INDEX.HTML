@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KonnectUCP - Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">KonnectUCP</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="tasks.html">Tasks</a></li>
+                <li class="nav-item"><a class="nav-link" href="messages.html">Messages</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Login/Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Profile Section -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Profile</h5>
+                        <p><strong>Name:</strong> <span id="profile-name">Loading...</span></p>
+                        <p><strong>Email:</strong> <span id="profile-email">Loading...</span></p>
+                        <p><strong>Contact:</strong> <span id="profile-contact">Loading...</span></p>
+                    </div>
+                </div>
+                <div class="alert alert-info mt-3" id="profile-description">Loading...</div>
+
+                <div class="accordion mt-3" id="accordionExample">
+                    <div class="card">
+                        <div class="card-header">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne">My Posts</button>
+                        </div>
+                        <div id="collapseOne" class="collapse" data-parent="#accordionExample">
+                            <div class="card-body" id="my-posts">Loading...</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo">My Tasks</button>
+                        </div>
+                        <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
+                            <div class="card-body" id="my-tasks">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+          <!-- Post Section -->
+<div class="col-md-6">
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Post Something</h5>
+            <input type="text" id="post-title" class="form-control mb-2" placeholder="Enter post title">
+            <textarea id="post-content" class="form-control" rows="3" placeholder="What's on your mind?"></textarea>
+            <button id="post-btn" class="btn btn-primary mt-2">Post</button>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Public Posts</h5>
+            <div id="public-posts">Loading...</div>
+        </div>
+    </div>
+</div>
+
+            <!-- Task Section -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Add Task</h5>
+                        <button id="add-task-btn" class="btn btn-success" onclick="window.location.href='tasks.html';">
+                            Add New Task
+                        </button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login/Sign Up Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login / Sign Up</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="Enter your username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="button" class="btn btn-secondary" id="signUpBtn">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // Handle Login
+            $('#loginForm').on('submit', function (e) {
+                e.preventDefault();
+                const username = $('#username').val();
+                const password = $('#password').val();
+
+                $.ajax({
+                    url: 'login.php',
+                    method: 'POST',
+                    data: { username: username, password: password },
+                    success: function (response) {
+                        alert(response); // Display response from PHP
+                        if (response === 'Login Successful') {
+                            $('#loginModal').modal('hide');
+                        }
+                    }
+                });
+            });
+
+            // Handle Sign Up
+            $('#signUpBtn').on('click', function () {
+                const username = $('#username').val();
+                const password = $('#password').val();
+
+                $.ajax({
+                    url: 'signup.php',
+                    method: 'POST',
+                    data: { username: username, password: password },
+                    success: function (response) {
+                        alert(response); // Display response from PHP
+                        if (response === 'Sign Up Successful') {
+                            $('#loginModal').modal('hide');
+                        }
+                    }
+                });
+            });
+        });
+      
+    $(document).ready(function () {
+        // Get user info
+        $.getJSON("get_user_info.php", function (data) {
+            if (data.error) {
+                alert("User not logged in");
+            } else {
+                $("#profile-name").text(data.username);
+                $("#profile-email").text(data.email);
+            }
+        });
+
+        // Get user posts
+        $.getJSON("get_user_posts.php", function (posts) {
+            if (posts.error) {
+                $("#my-posts").html("<p>You have no posts.</p>");
+            } else {
+                let html = "";
+                posts.forEach(post => {
+                    html += `<div class="card mb-2">
+                        <div class="card-body">
+                            <h5>${post.title}</h5>
+                            <p>${post.content}</p>
+                            <small>${post.created_at}</small>
+                        </div>
+                    </div>`;
+                });
+                $("#my-posts").html(html);
+            }
+        });
+
+        // Get public posts
+        $.getJSON("get_public_posts.php", function (posts) {
+            let html = "";
+            posts.forEach(post => {
+                html += `<div class="card mb-2">
+                    <div class="card-body">
+                        <h5>${post.title} <small>by ${post.username}</small></h5>
+                        <p>${post.content}</p>
+                        <small>${post.created_at}</small>
+                    </div>
+                </div>`;
+            });
+            $("#public-posts").html(html);
+        });
+    });
+
+    $(document).ready(function () {
+        // Handle Posting a New Post
+        $("#post-btn").click(function () {
+            let postTitle = $("#post-title").val().trim();  // Get post title
+            let postContent = $("#post-content").val().trim();
+
+            if (postContent === "") {
+                alert("Please write something before posting.");
+                return;
+            }
+
+            $.ajax({
+                url: "add_post.php",
+                method: "POST",
+                data: { title: postTitle, content: postContent },
+                success: function (response) {
+                    if (response === "success") {
+                        alert("Post added successfully!");
+                        $("#post-title").val(""); // Clear title field
+                        $("#post-content").val(""); // Clear input field
+                        loadPublicPosts(); // Reload public posts
+                    } else {
+                        alert(response); // Show error message from PHP
+                    }
+                },
+                error: function () {
+                    alert("Error posting. Please try again.");
+                }
+            });
+        });
+
+        // Function to Load Public Posts
+        function loadPublicPosts() {
+            $.getJSON("get_public_posts.php", function (posts) {
+                let html = "";
+                posts.forEach(post => {
+                    html += `<div class="card mb-2">
+                        <div class="card-body">
+                            <h5>${post.title} <small>by ${post.username}</small></h5>
+                            <p>${post.content}</p>
+                            <small>${post.created_at}</small>
+                        </div>
+                    </div>`;
+                });
+                $("#public-posts").html(html);
+            });
+        }
+
+        // Load public posts on page load
+        loadPublicPosts();
+    });
+    
+</script>
+
+        
+</body>
+</html>

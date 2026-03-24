@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KonnectUCP - Messages</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="messages.js" defer></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .chat-container {
+            display: flex;
+            height: 90vh;
+            margin-top: 20px;
+        }
+        .contacts {
+            width: 30%;
+            background: #fff;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+        }
+        .contacts .contact {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+        .contacts .contact:hover {
+            background: #f1f1f1;
+        }
+        .chat-box {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+        }
+        .chat-header {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+        .messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #e5ddd5;
+        }
+        .message {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 10px;
+            max-width: 60%;
+        }
+        .sent {
+            background: #dcf8c6;
+            align-self: flex-end;
+        }
+        .received {
+            background: #fff;
+            align-self: flex-start;
+        }
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            background: #fff;
+        }
+        .chat-input textarea {
+            flex-grow: 1;
+            resize: none;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .chat-input button {
+            margin-left: 10px;
+        }
+        .message {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 10px;
+    max-width: 60%;
+    display: block;
+    clear: both;
+}
+
+.sent {
+    background: #dcf8c6;
+    align-self: flex-end;
+    float: right;
+    text-align: right;
+}
+
+.received {
+    background: #fff;
+    align-self: flex-start;
+    float: left;
+    text-align: left;
+}
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="index.html">KonnectUCP</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="tasks.html">Tasks</a></li>
+            <li class="nav-item"><a class="nav-link" href="messages.html">Messages</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container chat-container">
+    <!-- Contacts Sidebar -->
+    <div class="contacts" id="contacts-list">
+        <h5 class="p-3 text-center">Contacts</h5>
+    </div>
+    
+    <!-- Chat Box -->
+    <div class="chat-box">
+        <div class="chat-header" id="chat-header">Select a contact</div>
+        <div class="messages" id="messages">
+            <!-- Messages will be displayed here -->
+        </div>
+        <div class="chat-input">
+            <textarea id="message-input" placeholder="Type a message..."></textarea>
+            <button class="btn btn-primary" id="send-message-btn" >Send</button>
+        </div>
+    </div>
+</div>
+<script src="messages.js" defer></script>
+
+
+</body>
+</html>
